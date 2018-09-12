@@ -30,6 +30,8 @@ int main(int argc, char* argv[])
 		}
 	}
 
+	stbi_flip_vertically_on_write(1);
+
 	if (stbi_write_png(
 		OUTPUT_FILE_NAME,
 		width, height,
