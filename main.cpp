@@ -1,5 +1,6 @@
 #include "Thirdparty/Nothings/stb_image_write.h"
 #include "Math/vector3.hpp"
+#include "Renderer/Ray.hpp"
 
 #define OUTPUT_FILE_NAME "renderer_output.png"
 
@@ -8,6 +9,12 @@ struct Color
 	unsigned char r, g, b;
 };
 
+Vector3 GetColorFromRay(const Ray& ray)
+{
+	double t = 0.5 * (ray.GetDirection().y + 1.0);
+	return  Vector3(1.0, 1.0, 1.0) * (1.0 - t) + Vector3(0.5, 0.7, 1.0) * t;
+}
+
 int main(int argc, char* argv[])
 {
 	const int width = 1280;
@@ -15,15 +22,22 @@ int main(int argc, char* argv[])
 
 	auto* imageData = new Color[width * height];
 
+	Vector3 lowerLeftCorner(-2.0, -1.0, -1.0);
+	Vector3 horizontal(4.0, 0.0, 0.0);
+	Vector3 vertical(0.0, 2.0, 0.0);
+	Vector3 origin(0.0, 0.0, 0.0);
+
 	for (int h = 0; h < height; ++h)
 	{
 		for (int w = 0; w < width; ++w)
 		{
-			Vector3 color;
+			double u = static_cast<double>(w) / static_cast<double>(width);
+			double v = static_cast<double>(h) / static_cast<double>(height);
 
-			color.r = 255.0 * (double)w / (double)width;
-			color.g = 255.0 * (double)h / (double)height;
-			color.b = 255.0 * 0.2;
+			Ray ray(origin, lowerLeftCorner + (horizontal * u) + (vertical * v));
+
+			Vector3 color = GetColorFromRay(ray);
+			color *= 255.0;
 
 			// 2D to 1D index (column-based)
 			int index = width * h + w;
@@ -34,7 +48,7 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	stbi_flip_vertically_on_write(1);
+	stbi_flip_vertically_on_write(true);
 
 	if (stbi_write_png(
 		OUTPUT_FILE_NAME,

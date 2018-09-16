@@ -43,6 +43,15 @@ Vector3& Vector3::operator*=(const Vector3 rhs)
 	return *this;
 }
 
+Vector3 & Vector3::operator*=(double rhs)
+{
+	this->x *= rhs;
+	this->y *= rhs;
+	this->z *= rhs;
+
+	return *this;
+}
+
 Vector3& Vector3::operator/=(const Vector3 rhs)
 {
 	this->x /= rhs.x;
@@ -72,6 +81,11 @@ Vector3 Vector3::operator*(const Vector3& rhs)
 	return Vector3(this->x * rhs.x, this->y * rhs.y, this->z * rhs.z);
 }
 
+Vector3 Vector3::operator*(double rhs)
+{
+	return Vector3(this->x * rhs, this->y * rhs, this->z * rhs);
+}
+
 Vector3 Vector3::operator/(const Vector3& rhs)
 {
 	return Vector3(this->x / rhs.x, this->y / rhs.y, this->z / rhs.z);
@@ -80,6 +94,13 @@ Vector3 Vector3::operator/(const Vector3& rhs)
 Vector3 Vector3::Cross(const Vector3& rhs)
 {
 	return Vector3(this->y * rhs.z - this->z * rhs.y, this->z * rhs.x - this->x * rhs.z, this->x * rhs.y - this->y * rhs.x);
+}
+
+Vector3 Vector3::Normalized() const
+{
+	double length = Length();
+
+	return Vector3(this->x / length, this->y / length, this->z / length);
 }
 
 double Vector3::Length() const

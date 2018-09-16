@@ -24,15 +24,18 @@ public:
 	Vector3& operator+=(const Vector3 rhs);
 	Vector3& operator-=(const Vector3 rhs);
 	Vector3& operator*=(const Vector3 rhs);
+	Vector3& operator*=(double rhs);
 	Vector3& operator/=(const Vector3 rhs);
 	
 	Vector3 operator-() const;
 	Vector3 operator-(const Vector3& rhs);
 	Vector3 operator+(const Vector3& rhs);
 	Vector3 operator*(const Vector3& rhs);
+	Vector3 operator*(double rhs);
 	Vector3 operator/(const Vector3& rhs);
 
 	Vector3 Cross(const Vector3& rhs);
+	Vector3 Normalized() const;
 
 	double Length() const;
 	double LengthSquared() const;
