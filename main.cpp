@@ -1,4 +1,6 @@
 #include "Thirdparty/Nothings/stb_image_write.h"
+#include "Math/vector3.hpp"
+
 #define OUTPUT_FILE_NAME "renderer_output.png"
 
 struct Color
@@ -11,21 +13,24 @@ int main(int argc, char* argv[])
 	const int width = 1280;
 	const int height = 720;
 
-	Color* imageData = new Color[width * height];
+	auto* imageData = new Color[width * height];
 
 	for (int h = 0; h < height; ++h)
 	{
 		for (int w = 0; w < width; ++w)
 		{
+			Vector3 color;
+
+			color.r = 255.0 * (double)w / (double)width;
+			color.g = 255.0 * (double)h / (double)height;
+			color.b = 255.0 * 0.2;
+
 			// 2D to 1D index (column-based)
 			int index = width * h + w;
 
-			float r = static_cast<float>(w + 1) / static_cast<float>(width);
-			float g = static_cast<float>(h + 1) / static_cast<float>(height);
-
-			imageData[index].r = static_cast<unsigned char>(255.0f * r);
-			imageData[index].g = static_cast<unsigned char>(255.0f * g);
-			imageData[index].b = 51;
+			imageData[index].r = static_cast<unsigned char>(color.r);
+			imageData[index].g = static_cast<unsigned char>(color.g);
+			imageData[index].b = static_cast<unsigned char>(color.b);
 		}
 	}
 
